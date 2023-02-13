@@ -1,18 +1,20 @@
-
-import React from 'react';
-import Task from './Task';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateTaskState } from '../lib/store';
+import React from "react";
+import Task from "./Task";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTaskState } from "../lib/store";
 
 export default function TaskList() {
   // We're retrieving our state from the store
   const tasks = useSelector((state) => {
     const tasksInOrder = [
-      ...state.taskbox.tasks.filter((t) => t.state === 'TASK_PINNED'),
-      ...state.taskbox.tasks.filter((t) => t.state !== 'TASK_PINNED'),
+      ...state.taskbox.tasks.filter((t) => t.state === "TASK_PINNED"),
+      ...state.taskbox.tasks.filter((t) => t.state !== "TASK_PINNED"),
     ];
     const filteredTasks = tasksInOrder.filter(
-      (t) => t.state === 'TASK_INBOX' || t.state === 'TASK_PINNED'
+      (t) =>
+        t.state === "TASK_INBOX" ||
+        t.state === "TASK_PINNED" ||
+        t.state === "TASK_ARCHIVED"
     );
     return filteredTasks;
   });
@@ -23,11 +25,15 @@ export default function TaskList() {
 
   const pinTask = (value) => {
     // We're dispatching the Pinned event back to our store
-    dispatch(updateTaskState({ id: value, newTaskState: 'TASK_PINNED' }));
+    dispatch(updateTaskState({ id: value, newTaskState: "TASK_PINNED" }));
   };
   const archiveTask = (value) => {
     // We're dispatching the Archive event back to our store
-    dispatch(updateTaskState({ id: value, newTaskState: 'TASK_ARCHIVED' }));
+    dispatch(updateTaskState({ id: value, newTaskState: "TASK_ARCHIVED" }));
+  };
+  const deleteTask = (value) => {
+    // We're dispatching the Pinned event back to our store
+    dispatch(updateTaskState({ id: value, newTaskState: "TASK_DELETED" }));
   };
   const LoadingRow = (
     <div className="loading-item">
@@ -37,7 +43,7 @@ export default function TaskList() {
       </span>
     </div>
   );
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <div className="list-items" data-testid="loading" key={"loading"}>
         {LoadingRow}
@@ -69,6 +75,7 @@ export default function TaskList() {
           task={task}
           onPinTask={(task) => pinTask(task)}
           onArchiveTask={(task) => archiveTask(task)}
+          onDeleteTask={(task) => deleteTask(task)}
         />
       ))}
     </div>

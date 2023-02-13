@@ -5,6 +5,7 @@ export default function Task({
   task: { id, title, state },
   onArchiveTask,
   onPinTask,
+  onDeleteTask
 }) {
   return (
     <div className={`list-item ${state}`}>
@@ -32,6 +33,9 @@ export default function Task({
           placeholder="Input title"
         />
       </label>
+      {state === "TASK_ARCHIVED" && (
+        <span onClick={() => onDeleteTask(id)}>Delete</span>
+      )}
 
       {state !== "TASK_ARCHIVED" && (
         <button

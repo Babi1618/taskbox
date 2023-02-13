@@ -1,14 +1,13 @@
+import React from "react";
 
-import React from 'react';
+import InboxScreen from "./InboxScreen";
+import store from "../lib/store";
 
-import InboxScreen from './InboxScreen';
-import store from '../lib/store';
-
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
 export default {
   component: InboxScreen,
-  title: 'InboxScreen',
+  title: "Components/InboxScreen",
   decorators: [(story) => <Provider store={store}>{story()}</Provider>],
 };
 
