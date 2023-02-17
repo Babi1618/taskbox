@@ -1,12 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
 
-export default function Task({
-  task: { id, title, state },
-  onArchiveTask,
-  onPinTask,
-  onDeleteTask
-}) {
+export default function Task({ task: { id, title, state }, onArchiveTask, onPinTask }) {
   return (
     <div className={`list-item ${state}`}>
       <label
@@ -21,7 +14,10 @@ export default function Task({
           id={`archiveTask-${id}`}
           checked={state === "TASK_ARCHIVED"}
         />
-        <span className="checkbox-custom" onClick={() => onArchiveTask(id)} />
+        <span
+          className="checkbox-custom"
+          onClick={() => onArchiveTask(id)}
+        />
       </label>
 
       <label htmlFor="title" aria-label={title} className="title">
@@ -31,11 +27,9 @@ export default function Task({
           readOnly={true}
           name="title"
           placeholder="Input title"
+         style={{ background: 'red' }}
         />
       </label>
-      {state === "TASK_ARCHIVED" && (
-        <span onClick={() => onDeleteTask(id)}>Delete</span>
-      )}
 
       {state !== "TASK_ARCHIVED" && (
         <button
@@ -51,14 +45,3 @@ export default function Task({
     </div>
   );
 }
-
-Task.propTypes = {
-  task: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-  }),
-  onArchiveTask: PropTypes.func,
-  onPinTask: PropTypes.func,
-  onDeleteTask:PropTypes.func
-};
